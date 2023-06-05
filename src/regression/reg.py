@@ -2,6 +2,28 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 from scipy import stats
+from sklearn.linear_model import (
+	LinearRegression, LogisticRegression,
+)
+from sklearn.metrics import r2_score
+
+
+
+class RegressionOutput:
+    @staticmethod
+    def add_significance(value):
+        if value <= 0.001:
+            return '***'
+        elif value <= 0.01:
+            return '**'
+        elif value <= 0.05:
+            return '*'
+        else:
+            return ' '
+        
+    @staticmethod
+    def r2_adjusted(r2, n, k):
+        return 1 - ((1 - r2) * (n - 1) / (n - k - 1))
 
 def regression_one_model(df, Xindvars, Yvar, kind='ols', summary=True):
     """Performs regression model
