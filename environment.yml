@@ -1,0 +1,25 @@
+name: pe_env
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.10
+  - pip
+  - pandas=1.5.2
+  - numpy=1.23.4
+  - statsmodels=0.13.5
+  - matplotlib=3.7
+  - seaborn=0.12
+  - scikit-learn=1.2.2
+  - scipy=1.10.1
+  - jupyter
+  - jupyterlab
+  - jupyterlab-git
+  - jupyterthemes
+  - ipykernel
+  - nb_conda_kernels
+  - openpyxl=3.1.2
+  - plotly=5.14
+  - nodejs
+  - tqdm
