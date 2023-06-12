@@ -103,6 +103,8 @@ icpet_num_feat = [
     'peak_fick_co',
     'peak_vd_vt',
     'peak_cavo2_a_art_hb',
+    'peak_pa_elastance_ea_mmhg_ml_m2',
+    'hyperventilation_num',
 ]
 
 icpet_cat_feat = [
@@ -120,4 +122,5 @@ icpet_cat_feat = [
     'systemic_htn_response',
     'approached_ventilatory_ceiling',
     'surpassed_ventilatory_ceiling',
+    'hyperventilation'
 ]
