@@ -77,6 +77,13 @@ controls_encoded = [
     'gender_cl_Male'
 ]
 
+control_options = [
+    None,
+    ['age'],
+    ['gender_cl_Male'],
+    ['age', 'gender_cl_Male']
+]
+
 icpet_num_feat = [
     'rer',
     'vo2_ml_kg_min_at_at',

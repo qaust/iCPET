@@ -7,23 +7,30 @@ from sklearn.linear_model import (
 )
 from sklearn.metrics import r2_score
 
+def combine_feat_and_controls(features=None, controls=None):
+    if isinstance(features, str):
+        feat_set = set([features])
+    elif isinstance(features, list):
+        feat_set = set(features)
+    else:
+        feat_set = set()
+    if controls is None:
+        control_set = set()
+    else:
+        control_set = set(controls)
+    all_feat = list(feat_set.union(control_set))
+    return all_feat
+
+def controls_to_str(controls):
+    if controls is not None:
+        control_name = '_'.join(controls)
+    else:
+        control_name = 'None'
+    return control_name
 
 
-class RegressionOutput:
-    @staticmethod
-    def add_significance(value):
-        if value <= 0.001:
-            return '***'
-        elif value <= 0.01:
-            return '**'
-        elif value <= 0.05:
-            return '*'
-        else:
-            return ' '
-        
-    @staticmethod
-    def r2_adjusted(r2, n, k):
-        return 1 - ((1 - r2) * (n - 1) / (n - k - 1))
+
+
 
 def regression_one_model(df, Xindvars, Yvar, kind='ols', summary=True):
     """Performs regression model
