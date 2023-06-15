@@ -22,4 +22,6 @@ dependencies:
   - openpyxl=3.1.2
   - plotly=5.14
   - nodejs
+  - ipython
   - tqdm
+  - xgboost

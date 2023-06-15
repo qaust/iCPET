@@ -70,13 +70,11 @@ cardiopulmonary_feat = [
 controls = [
     'age',
     'gender_cl',
-    'race',
 ]
 
 controls_encoded = [
     'age',
     'gender_cl_Male',
-    'race_White',
 ]
 
 control_options = [
