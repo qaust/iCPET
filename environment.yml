@@ -12,12 +12,14 @@ dependencies:
   - matplotlib=3.7
   - seaborn=0.12
   - scikit-learn=1.2.2
+  - scikit-survival=0.21
   - scipy=1.10.1
   - jupyter
   - jupyterlab
   - jupyterlab-git
   - jupyterthemes
   - ipykernel
+  - lifelines
   - nb_conda_kernels
   - openpyxl=3.1.2
   - plotly=5.14
