@@ -61,9 +61,9 @@ cardiopulmonary_feat = [
     'a_diameter',
     'pv_a',
     'heart_volume',
-    'airway_volume',
+    # 'airway_volume',
     'airway_ratio',
-    'ild_volume',
+    # 'ild_volume',
     'ild_ratio',
 ]
 
