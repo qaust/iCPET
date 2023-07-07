@@ -1,30 +1,90 @@
+######################################################################
+# Lung Segments/Lobes definitions
+
+central_segments = [
+	'centralartery',
+]
+
+superior_right_segments = [
+    'apical_rs1',
+    'posterior_rs2',
+    'anterior_rs3',
+    'superior_rs6',
+    'anterior_basal_rs8',
+]
+
+superior_left_segments = [
+    'apical_ls1',
+    'posterior_ls2',
+    'anterior_ls3',
+    'superior_ls4',
+    'inferior_ls5',
+    'superior_ls6',
+]
+
+middle_right_segments = [
+    'lateral_rs4',
+    'medial_rs5',
+    'medial_basal_rs7',
+]
+
+inferior_right_segments = [
+    'lateral_basal_rs9',
+    'posterior_basal_rs10',
+]
+
+inferior_left_segments = [
+    'anteromedial_basal_ls7_8',
+    'lateral_basal_ls9',
+    'posterior_basal_ls10',
+]
+
+all_segments = central_segments + superior_right_segments + superior_left_segments + middle_right_segments + inferior_right_segments + inferior_left_segments
+
+######################################################################
+# Targets
+
 cat_targets = [
 	'resolved_pe'
 ]
 
 num_targets = [
+    # Total
 	'total_clot_burden',
+
+    # Lobes
+    'superior_right',
+    'superior_left',
+    'middle_right',
+    'inferior_right',
+    'inferior_left',
 	'centralartery',
-	'apical_rs1',
-	'posterior_rs2',
-	'anterior_rs3',
-	'lateral_rs4',
-	'medial_rs5',
-	'superior_rs6',
-	'medial_basal_rs7',
-	'anterior_basal_rs8',
-	'lateral_basal_rs9',
-	'posterior_basal_rs10',
-	'apical_ls1',
-	'posterior_ls2',
-	'anterior_ls3',
-	'superior_ls4',
-	'inferior_ls5',
-	'superior_ls6',
-	'anteromedial_basal_ls7_8',
-	'lateral_basal_ls9',
-	'posterior_basal_ls10',
+
+    # Segments
+	# 'apical_rs1',
+	# 'posterior_rs2',
+	# 'anterior_rs3',
+	# 'lateral_rs4',
+	# 'medial_rs5',
+	# 'superior_rs6',
+	# 'medial_basal_rs7',
+	# 'anterior_basal_rs8',
+	# 'lateral_basal_rs9',
+	# 'posterior_basal_rs10',
+	# 'apical_ls1',
+	# 'posterior_ls2',
+	# 'anterior_ls3',
+	# 'superior_ls4',
+	# 'inferior_ls5',
+	# 'superior_ls6',
+	# 'anteromedial_basal_ls7_8',
+	# 'lateral_basal_ls9',
+	# 'posterior_basal_ls10',
 ]
+
+
+######################################################################
+# Radiographic features
 
 body_feat = [
     'volume_visceral_fat', 
@@ -77,12 +137,17 @@ controls_encoded = [
     'gender_cl_Male',
 ]
 
-control_options = [
-    None,
-    ['age'],
-    ['gender_cl_Male'],
-    ['age', 'gender_cl_Male']
+clot_feat = [
+    'superior_right',
+    'superior_left',
+    'middle_right',
+    'inferior_right',
+    'inferior_left',
+	'centralartery',
 ]
+
+######################################################################
+# iCPET features
 
 icpet_num_feat = [
     'rer',
