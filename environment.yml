@@ -27,5 +27,3 @@ dependencies:
   - ipython
   - tqdm
   - xgboost
-  - pip:
-    - WORC
