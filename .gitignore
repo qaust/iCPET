@@ -11,6 +11,8 @@ word
 output
 figures
 .ipynb_checkpoints
+*.Data
+*.enl
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
