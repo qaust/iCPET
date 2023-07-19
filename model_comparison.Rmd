@@ -1,0 +1,227 @@
+---
+title: "model_comparison"
+author: "Quentin Auster"
+date: "2023-07-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r imports}
+library(tidyverse)
+library(caret)
+library(readxl)
+library(plotROC)
+library(pROC)
+```
+
+```{r}
+df <- read.csv("./data/classification_data.csv")
+preds <- read.csv("./output/eval/logit_CV_predictions.csv")
+ground_truth <- df$resolved_pe
+
+```
+
+```{r}
+# model_demo <- glm(resolved_pe ~ age + gender_cl_Male,
+#                   family = binomial(link = 'logit'),
+#                   data=df)
+# 
+# model_body <- glm(resolved_pe ~ density_bone + density_visceral_fat,
+#                   family = binomial(link = 'logit'),
+#                   data=df)
+# 
+# model_cardio <- glm(resolved_pe ~ airway_ratio + a_diameter + heart_volume + ild_volume,
+#                     family = binomial(link = 'logit'),
+#                     data=df)
+# 
+# model_clot <- glm(resolved_pe ~ superior_left + inferior_right + inferior_left,
+#                   family = binomial(link = 'logit'),
+#                   data=df)
+# 
+# model_composite <- glm(resolved_pe ~ airway_ratio + a_diameter + heart_volume + superior_left,
+#                        family = binomial(link = 'logit'),
+#                        data=df)
+```
+
+```{r}
+# demo_pred_proba <- predict(model_demo)
+# body_pred_proba <- predict(model_body)
+# cardio_pred_proba <- predict(model_cardio)
+# clot_pred_proba <- predict(model_clot)
+# composite_pred_proba <- predict(model_composite)
+```
+
+```{r Train Results}
+# # Demo Model
+# print("Demo --------------")
+# demo_roc <- roc(ground_truth, demo_pred_proba)
+# print(auc(demo_roc))
+# print(ci.auc(ground_truth, demo_pred_proba))
+# 
+# # Body Model
+# print("Body --------------")
+# body_roc <- roc(ground_truth, body_pred_proba)
+# print(auc(body_roc))
+# print(ci.auc(ground_truth, body_pred_proba))
+# 
+# # Cardio Model
+# print("Cardio --------------")
+# cardio_roc <- roc(ground_truth, cardio_pred_proba)
+# print(auc(cardio_roc))
+# print(ci.auc(ground_truth, cardio_pred_proba))
+# 
+# # Clot Model
+# print("Clot --------------")
+# clot_roc <- roc(ground_truth, clot_pred_proba)
+# print(auc(clot_roc))
+# print(ci.auc(ground_truth, clot_pred_proba))
+# 
+# # Composite Model
+# print("Composite --------------")
+# composite_roc <- roc(ground_truth, composite_pred_proba)
+# print(auc(composite_roc))
+# print(ci.auc(ground_truth, composite_pred_proba))
+```
+
+```{r Train DeLong Tests}
+# models <- list(
+#   "Demo" = demo_roc, 
+#   "Body" = body_roc, 
+#   "Cardio" = cardio_roc, 
+#   "Clot" = clot_roc, 
+#   "Composite" = composite_roc
+# )
+# delong_pvals <- data.frame(matrix(NA, nrow = 5, ncol = 5))
+# rownames(delong_pvals) <- names(models)
+# colnames(delong_pvals) <- names(models)
+# 
+# for (i in 1:length(models)) {
+#   for (j in 1:length(models)) {
+#     model1 <- names(models)[i]
+#     model2 <- names(models)[j]
+#     delong_test = roc.test(models[[model1]], models[[model2]])
+#     delong_pvals[i, j] <- delong_test$p.value
+#   }
+# }
+# 
+# print(delong_pvals)
+```
+
+```{r Cross-Validation Results}
+
+demo_roc_cv <- roc(preds$ground_truth, preds$Demo)
+body_roc_cv <- roc(preds$ground_truth, preds$Body)
+cardio_roc_cv <- roc(preds$ground_truth, preds$Cardio)
+clot_roc_cv <- roc(preds$ground_truth, preds$Clot)
+all_roc_cv <- roc(preds$ground_truth, preds$All)
+custom_roc_cv <- roc(preds$ground_truth, preds$Custom)
+
+
+roc_results <- list(
+  "Demo" = c(
+    auc(demo_roc_cv), 
+    ci.auc(preds$ground_truth, preds$Demo)
+  ),
+  "Body" = c(
+    auc(body_roc_cv), 
+    ci.auc(preds$ground_truth, preds$Body)
+  ),
+  "Cardio" = c(
+    auc(cardio_roc_cv), 
+    ci.auc(preds$ground_truth, preds$Cardio)
+  ),
+  "Clot" = c(
+    auc(clot_roc_cv), 
+    ci.auc(preds$ground_truth, preds$Clot)
+  ),
+  "All" = c(
+    auc(all_roc_cv), 
+    ci.auc(preds$ground_truth, preds$All)
+  ),
+  "Custom" = c(
+    auc(custom_roc_cv), 
+    ci.auc(preds$ground_truth, preds$Custom)
+  )
+)
+roc_results_df <- as.data.frame(do.call(rbind, roc_results))
+colnames(roc_results_df) <- c("AUC", "ci_low", "ci_mid", "ci_high")
+
+roc_results_df$Model <- row.names(roc_results_df)
+
+roc_results_df$Legend <- paste0(
+  str_pad(str_trim(roc_results_df$Model), width = 9, side = 'right', pad = ' '),
+  "AUC: ",
+  format(round(roc_results_df$AUC, 2), nsmall = 2), 
+  " (", 
+  format(round(roc_results_df$ci_low, 2), nsmall = 2), 
+  "-", 
+  format(round(roc_results_df$ci_high, 2), nsmall = 2),
+  ")"
+) 
+
+roc_results_df
+```
+
+```{r Cross-Validation DeLong Tests}
+models <- list(
+  "Demo" = demo_roc_cv, 
+  "Body" = body_roc_cv, 
+  "Cardio" = cardio_roc_cv, 
+  "Clot" = clot_roc_cv, 
+  "All" = all_roc_cv,
+  "Custom" = custom_roc_cv
+)
+delong_pvals_cv <- data.frame(
+  matrix(
+    NA, 
+    nrow = length(models), 
+    ncol = length(models)
+  )
+)
+rownames(delong_pvals_cv) <- names(models)
+colnames(delong_pvals_cv) <- names(models)
+
+for (i in 1:length(models)) {
+  for (j in 1:length(models)) {
+    model1 <- names(models)[i]
+    model2 <- names(models)[j]
+    delong_test = roc.test(
+      models[[model1]], 
+      models[[model2]],
+      method='delong',
+      alternative='two.sided'
+    )
+    delong_pvals_cv[i, j] <- delong_test$p.value
+  }
+}
+
+print(delong_pvals_cv)
+
+write.csv(delong_pvals_cv, file = "./output/eval/delong_pvalues.csv")
+```
+
+```{r}
+preds_long <- gather(preds, key = "Model", value = "proba", -ground_truth)
+preds_long$Model <- factor(preds_long$Model)
+preds_long <- merge(preds_long, roc_results_df[, c("Model", "Legend")], sort = FALSE)
+preds_long
+```
+
+```{r}
+
+preds_long %>% 
+  ggplot(mapping = aes(m = proba, d = ground_truth, color = Legend) ) +
+  geom_roc(n.cuts = 0) +
+  coord_equal() +
+  guides(color = guide_legend(title = "Model")) + 
+  style_roc(
+    minor.breaks = c(seq(0, 0.1, by = 0.02), seq(0.9, 1, by = 0.02)),
+    xlab = "False Positive Rate",
+    ylab = "True Positive Rate",
+  )
+ggsave("./figures/roc_plots.png")
+```

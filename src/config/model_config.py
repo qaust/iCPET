@@ -103,7 +103,7 @@ body_feat = [
     'density_bone', 
     'mass_bone',
     'bmi',
-    'bsa',
+    # 'bsa',
 ]
 
 cardiopulmonary_feat = [
@@ -123,8 +123,8 @@ cardiopulmonary_feat = [
     'heart_volume',
     'airway_volume',
     'airway_ratio',
-    'ild_volume',
-    'ild_ratio',
+    # 'ild_volume',
+    # 'ild_ratio',
 ]
 
 controls = [
