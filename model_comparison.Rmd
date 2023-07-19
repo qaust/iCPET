@@ -219,9 +219,11 @@ preds_long %>%
   coord_equal() +
   guides(color = guide_legend(title = "Model")) + 
   style_roc(
-    minor.breaks = c(seq(0, 0.1, by = 0.02), seq(0.9, 1, by = 0.02)),
+    minor.breaks = c(seq(0, 0.1, by = 0.025), seq(0.9, 1, by = 0.025)),
     xlab = "False Positive Rate",
     ylab = "True Positive Rate",
+    guide = TRUE,
+    theme = theme_grey
   )
 ggsave("./figures/roc_plots.png")
 ```
