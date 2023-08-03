@@ -16,6 +16,7 @@ library(caret)
 library(readxl)
 library(plotROC)
 library(pROC)
+library(verification)
 ```
 
 ```{r}
@@ -125,6 +126,7 @@ roc_results <- list(
   "Demo" = c(
     auc(demo_roc_cv), 
     ci.auc(preds$ground_truth, preds$Demo)
+    
   ),
   "Body" = c(
     auc(body_roc_cv), 
@@ -162,6 +164,9 @@ roc_results_df$Legend <- paste0(
   format(round(roc_results_df$ci_high, 2), nsmall = 2),
   ")"
 ) 
+
+write.csv(t(roc_results_df), file = "./output/eval/auc_ci.csv")
+
 
 roc_results_df
 ```
